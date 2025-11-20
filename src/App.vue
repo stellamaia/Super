@@ -1,158 +1,56 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
-import MainLayout from "./layouts/MainLayout.vue";
-import RevenueChart from "./components/charts/RevenueChart.vue";
-import ConversionChart from "./components/charts/ConversionChart.vue";
-import Sparkline from "./components/charts/Sparkline.vue";
-import { Icon } from "@iconify/vue";
-import visaLogo from "./assets/visa.png";
-import mastercardLogo from "./assets/mastercard.png";
-import eloLogo from "./assets/elo.png";
-import hipercardLogo from "./assets/hipercard.png";
-import amexLogo from "./assets/amex.png";
-import gpayLogo from "./assets/gpay.png";
-import samsungLogo from "./assets/samsung.png";
-import appleLogo from "./assets/apple.png";
-import hiperLogo from "./assets/hiper.png";
-import { fetchRevenueData } from "./mocks/revenueApi";
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import MainLayout from './layouts/MainLayout.vue'
+import RevenueChart from './components/charts/RevenueChart.vue'
+import ConversionChart from './components/charts/ConversionChart.vue'
+import Sparkline from './components/charts/Sparkline.vue'
+import { Icon } from '@iconify/vue'
+import { fetchRevenueData } from './mocks/revenueApi'
+import { SUMMARY_CARDS, STATUS_CARDS, CONVERSION_DATA, BRAND_BARS } from './constants/mockData'
 
-const summaryCards = [
-  // Faturamento recebido (Primeiro card da Imagem 1 e 2)
-  {
-    label: "Faturamento recebido",
-    value: "R$ 245.340,90",
-    changeColor: "text-brand-primary",
-    dotColor: "#0641FC",
-    secondaryDotColor: "#0641FC42",
-  },
-  // Faturamento previsto (Segundo card da Imagem 1 e 2)
-  {
-    label: "Faturamento previsto",
-    value: "R$ 815.210,24",
-    changeColor: "text-brand-mint",
-    dotColor: "#852DF6",
-    secondaryDotColor: "#852DF66B",
-    badge: "D+2",
-  },
-  // Vendas pendentes (Terceiro card da Imagem 1 e 2)
-  {
-    label: "Vendas pendentes",
-    value: "R$ 15.332,18",
-    changeColor: "text-accent-orange",
-    dotColor: "#F89E26",
-    secondaryDotColor: "#FDD5A8",
-  },
-  // Ticket médio (Quarto card da Imagem 1 e 2)
-  {
-    label: "Ticket médio",
-    value: "R$ 192,30",
-    changeColor: "text-accent-lilac",
-    dotColor: "#B882FE",
-    secondaryDotColor: "#B882FE73",
-  },
-  // Número de cobranças (Novo card adicionado conforme Imagem 1)
-  {
-    label: "Número de cobranças",
-    value: "12.349",
-    changeColor: "text-neutral-slate",
-    dotColor: "#2A2E33",
-    secondaryDotColor: "#2A2E3373",
-  },
-];
+const MOBILE_BREAKPOINT = 640
+const MOBILE_CHART_ITEMS = 20
 
-const statusCards = [
-  {
-    label: "Reembolsos",
-    value: "R$ 8.260,10",
-    meta: "233 cobranças",
-    delta: "4,5%",
-    deltaColor: "text-[#F89E26]",
-    trendColor: "#0641FC",
-    trend: [15, 18, 16, 20, 28, 32, 30],
-  },
-  {
-    label: "Chargebacks",
-    value: "R$ 1.260,10",
-    meta: "5 cobranças",
-    delta: "0,5%",
-    deltaColor: "text-accent-crimson",
-    trendColor: "#B882FE",
-    trend: [8, 6, 4, 5, 7, 4, 3],
-  },
-  {
-    label: "Cancelados",
-    value: "R$ 3.120,60",
-    meta: "32 cobranças",
-    delta: "1,5%",
-    deltaColor: "text-neutral-slate",
-    trendColor: "#852DF6",
-    trend: [10, 12, 11, 14, 12, 10, 9],
-  },
-  {
-    label: "Não autorizado",
-    value: "R$ 6.120,60",
-    meta: "122 cobranças",
-    delta: "3,1%",
-    deltaColor: "text-accent-crimson",
-    trendColor: "#0641FC",
-    trend: [20, 18, 22, 24, 21, 18, 16],
-  },
-];
+const summaryCards = SUMMARY_CARDS
+const statusCards = STATUS_CARDS
+const conversion = CONVERSION_DATA
+const brandBars = BRAND_BARS
 
-const conversion = [
-  { label: "Crédito", value: 92, color: "#0641FC" },
-  { label: "Débito", value: 95, color: "#852DF6" },
-  { label: "Boleto", value: 42, color: "#B882FE" },
-  { label: "Pix", value: 98, color: "#9DB5FF" },
-];
-
-const brandBars = [
-  { name: "Visa", value: 65, logo: visaLogo },
-  { name: "Mastercard", value: 60, logo: mastercardLogo },
-  { name: "Elo", value: 42, logo: eloLogo },
-  { name: "Hipercard", value: 35, logo: hipercardLogo },
-  { name: "American Express", value: 30, logo: amexLogo },
-  { name: "Google Pay", value: 28, logo: gpayLogo },
-  { name: "Samsung Pay", value: 24, logo: samsungLogo },
-  { name: "Apple Pay", value: 38, logo: appleLogo },
-  { name: "Hiper", value: 26, logo: hiperLogo },
-];
-
-const revenueLabels = ref([]);
-const revenueReceived = ref([]);
-const revenueForecast = ref([]);
-const isRevenueLoading = ref(true);
-const revenueError = ref(null);
-const isMobile = ref(false);
+const revenueLabels = ref([])
+const revenueReceived = ref([])
+const revenueForecast = ref([])
+const isRevenueLoading = ref(true)
+const revenueError = ref(null)
+const isMobile = ref(false)
 
 const updateIsMobile = () => {
-  if (typeof window === "undefined") return;
-  isMobile.value = window.innerWidth < 640;
-};
+  if (typeof window === 'undefined') return
+  isMobile.value = window.innerWidth < MOBILE_BREAKPOINT
+}
 
 const loadRevenueData = async () => {
   try {
-    const { labels, received, forecast } = await fetchRevenueData();
-    revenueLabels.value = labels;
-    revenueReceived.value = received;
-    revenueForecast.value = forecast;
+    const { labels, received, forecast } = await fetchRevenueData()
+    revenueLabels.value = labels
+    revenueReceived.value = received
+    revenueForecast.value = forecast
   } catch (error) {
-    console.error("Erro ao carregar os dados de faturamento", error);
-    revenueError.value = "Não foi possível carregar o gráfico no momento.";
+    console.error('Erro ao carregar os dados de faturamento', error)
+    revenueError.value = 'Não foi possível carregar o gráfico no momento.'
   } finally {
-    isRevenueLoading.value = false;
+    isRevenueLoading.value = false
   }
-};
+}
 
 onMounted(() => {
-  loadRevenueData();
-  updateIsMobile();
-  window.addEventListener("resize", updateIsMobile);
-});
+  loadRevenueData()
+  updateIsMobile()
+  window.addEventListener('resize', updateIsMobile)
+})
 
 onBeforeUnmount(() => {
-  window.removeEventListener("resize", updateIsMobile);
-});
+  window.removeEventListener('resize', updateIsMobile)
+})
 </script>
 
 <template>
@@ -365,9 +263,9 @@ onBeforeUnmount(() => {
             </div>
             <RevenueChart
               v-else
-              :labels="revenueLabels.slice(0, 20)"
-              :received="revenueReceived.slice(0, 20)"
-              :forecast="revenueForecast.slice(0, 20)"
+              :labels="revenueLabels.slice(0, MOBILE_CHART_ITEMS)"
+              :received="revenueReceived.slice(0, MOBILE_CHART_ITEMS)"
+              :forecast="revenueForecast.slice(0, MOBILE_CHART_ITEMS)"
               :is-mobile="true"
             />
           </div>

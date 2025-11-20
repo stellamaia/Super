@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { Line } from 'vue-chartjs'
 import '../../utils/chartConfig.js'
 import { createSparklineOptions } from '../../utils/chartConfig.js'
+import { COLORS } from '../../constants/colors.js'
 
 const props = defineProps({
   points: {
@@ -11,7 +12,7 @@ const props = defineProps({
   },
   strokeColor: {
     type: String,
-    default: '#0641FC',
+    default: COLORS.PRIMARY,
   },
 })
 
@@ -35,4 +36,3 @@ const options = computed(() => createSparklineOptions(props.strokeColor))
     <Line :data="data" :options="options" />
   </div>
 </template>
-

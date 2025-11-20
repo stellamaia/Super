@@ -10,6 +10,7 @@ import {
   Filler,
   Legend,
 } from 'chart.js'
+import { COLORS, COLORS_WITH_ALPHA } from '../constants/colors.js'
 
 Chart.register(
   BarElement,
@@ -23,18 +24,27 @@ Chart.register(
   Legend,
 )
 
-Chart.defaults.font.family = "'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-Chart.defaults.font.size = 12
-Chart.defaults.color = '#11151B'
-Chart.defaults.plugins.legend.display = false
-Chart.defaults.plugins.tooltip.cornerRadius = 12
-Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(17,21,27,0.92)'
-Chart.defaults.plugins.tooltip.titleColor = '#FFFFFF'
-Chart.defaults.plugins.tooltip.bodyColor = '#FFFFFF'
-Chart.defaults.plugins.tooltip.padding = 12
+const FONT_FAMILY = "'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+const FONT_SIZE_DEFAULT = 12
+const FONT_SIZE_SMALL = 10
+const TOOLTIP_CORNER_RADIUS = 12
+const TOOLTIP_PADDING = 12
 
-const gridColor = '#E6E3DC'
-const tickColor = '#86898B'
+Chart.defaults.font.family = FONT_FAMILY
+Chart.defaults.font.size = FONT_SIZE_DEFAULT
+Chart.defaults.color = COLORS.TEXT_PRIMARY
+Chart.defaults.plugins.legend.display = false
+Chart.defaults.plugins.tooltip.cornerRadius = TOOLTIP_CORNER_RADIUS
+Chart.defaults.plugins.tooltip.backgroundColor = COLORS_WITH_ALPHA.OVERLAY
+Chart.defaults.plugins.tooltip.titleColor = COLORS.TEXT_WHITE
+Chart.defaults.plugins.tooltip.bodyColor = COLORS.TEXT_WHITE
+Chart.defaults.plugins.tooltip.padding = TOOLTIP_PADDING
+
+const Y_AXIS_MIN = 0
+const Y_AXIS_MAX = 200000
+const Y_AXIS_STEP = 50000
+const MAX_TICKS_LIMIT = 5
+const VALUE_DIVIDER = 1000
 
 export const revenueChartOptions = {
   responsive: true,
@@ -49,38 +59,43 @@ export const revenueChartOptions = {
         display: false,
       },
       ticks: {
-        color: tickColor,
+        color: COLORS.NEUTRAL_SLATE,
         maxRotation: 0,
         font: {
-          size: 10,
+          size: FONT_SIZE_SMALL,
         },
       },
     },
     y: {
       grid: {
-        color: gridColor,
+        color: COLORS.GRID_COLOR,
         drawBorder: false,
       },
-      min: 0,         
-      max: 200000,
+      min: Y_AXIS_MIN,
+      max: Y_AXIS_MAX,
       ticks: {
-        color: tickColor,
-        stepSize: 50000,
+        color: COLORS.NEUTRAL_SLATE,
+        stepSize: Y_AXIS_STEP,
         callback: (value) => {
           if (value === 0) {
-            return ' 0';
+            return ' 0'
           }
-          return ` ${value / 1000}k`;
+          return ` ${value / VALUE_DIVIDER}k`
         },
-        maxTicksLimit: 5,
+        maxTicksLimit: MAX_TICKS_LIMIT,
       },
     },
   },
-  plugins: {
-  },
-};
+}
 
-export const createSparklineOptions = (strokeColor = '#0641FC') => ({
+const SPARKLINE_BORDER_WIDTH = 2
+const SPARKLINE_TENSION = 0.5
+const DOUGHNUT_CUTOUT = '75%'
+const DOUGHNUT_ROTATION = -90
+const DOUGHNUT_CIRCUMFERENCE = 360
+const ANIMATION_DURATION = 800
+
+export const createSparklineOptions = (strokeColor = COLORS.PRIMARY) => ({
   responsive: true,
   maintainAspectRatio: false,
   scales: {
@@ -97,8 +112,8 @@ export const createSparklineOptions = (strokeColor = '#0641FC') => ({
   elements: {
     line: {
       borderColor: strokeColor,
-      borderWidth: 2,
-      tension: 0.5,
+      borderWidth: SPARKLINE_BORDER_WIDTH,
+      tension: SPARKLINE_TENSION,
     },
     point: {
       radius: 0,
@@ -107,21 +122,20 @@ export const createSparklineOptions = (strokeColor = '#0641FC') => ({
 })
 
 export const createConversionChartOptions = () => ({
-  cutout: '75%',
-  rotation: -90,
-  circumference: 360,
+  cutout: DOUGHNUT_CUTOUT,
+  rotation: DOUGHNUT_ROTATION,
+  circumference: DOUGHNUT_CIRCUMFERENCE,
   plugins: {
     tooltip: { enabled: false },
   },
   elements: {
     arc: {
       borderWidth: 0,
-     
     },
   },
   hover: { mode: null },
   animation: {
-    duration: 800,
+    duration: ANIMATION_DURATION,
   },
 })
 

@@ -12,6 +12,7 @@ import {
 } from 'chart.js'
 import '../../utils/chartConfig.js'
 import { revenueChartOptions } from '../../utils/chartConfig.js'
+import { GRADIENT_COLORS } from '../../constants/colors.js'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
@@ -34,60 +35,56 @@ const props = defineProps({
   },
 })
 
-const GREEN_START_VALUE = 45000
+const BORDER_RADIUS = 10
+const BAR_THICKNESS_MOBILE = 6
+const BAR_THICKNESS_DESKTOP = 8
 
-const getGradient = (context) => {
-  const chart = context.chart;
-  const { ctx, chartArea } = chart;
-  const bar = context.parsed;
-  
+const createBarGradient = (context) => {
+  const chart = context.chart
+  const { ctx, chartArea } = chart
+  const bar = context.parsed
+
   if (!chartArea) {
-    return '#0641FC';
+    return GRADIENT_COLORS.BLUE_END
   }
 
-  const greenColor = '#2FCD66';
-  const blueColor = '#0641FC';
+  const yBottom = chart.scales.y.getPixelForValue(0)
+  const yTopBar = chart.scales.y.getPixelForValue(bar.y)
+  const gradient = ctx.createLinearGradient(0, yTopBar, 0, yBottom)
 
-  const yBottom = chart.scales.y.getPixelForValue(0);
-  const yTopBar = chart.scales.y.getPixelForValue(bar.y);
-  const gradient = ctx.createLinearGradient(0, yTopBar, 0, yBottom);
-  
-  gradient.addColorStop(0, greenColor); 
-  gradient.addColorStop(1, blueColor); 
+  gradient.addColorStop(0, GRADIENT_COLORS.GREEN_START)
+  gradient.addColorStop(1, GRADIENT_COLORS.BLUE_END)
 
-  return gradient;
-};
+  return gradient
+}
 
 const barTrackBackground = {
   id: 'barTrackBackground',
   beforeDatasetsDraw(chart) {
-    // Não desenha o fundo se for mobile
     if (chart.options.isMobileChart) {
       return
     }
 
     const { ctx, scales } = chart
-
     const y = scales.y
+
     if (!y || !chart.chartArea) {
       return
     }
-    const meta = chart.getDatasetMeta(0)
 
+    const meta = chart.getDatasetMeta(0)
     const chartTop = y.top
     const chartBase = y.bottom
     const trackHeight = chartBase - chartTop
 
-    meta.data.forEach((dataPoint, index) => {
+    meta.data.forEach((dataPoint) => {
       const { x: barX, width: barWidth, options } = dataPoint
       const trackWidth = chart.data.datasets[0].barThickness || barWidth
       const radius = options.borderRadius || 0
+      const rectX = barX - trackWidth / 2
 
       ctx.save()
       ctx.fillStyle = '#F5F5F5'
-
-      const rectX = barX - trackWidth / 2
-
       ctx.beginPath()
 
       if (ctx.roundRect) {
@@ -110,9 +107,9 @@ const chartData = computed(() => ({
     {
       label: 'Faturamento recebido',
       data: props.received,
-      backgroundColor: (context) => getGradient(context),
-      borderRadius: 10,
-      barThickness: props.isMobile ? 6 : 8, // 3px no mobile, 8px no desktop
+      backgroundColor: (context) => createBarGradient(context),
+      borderRadius: BORDER_RADIUS,
+      barThickness: props.isMobile ? BAR_THICKNESS_MOBILE : BAR_THICKNESS_DESKTOP,
       borderSkipped: false,
     }
   ],

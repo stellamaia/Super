@@ -1,17 +1,16 @@
 <script setup>
-import { Icon } from "@iconify/vue";
+import { Icon } from '@iconify/vue'
 
 defineProps({
   variant: {
     type: String,
-    default: 'desktop', // 'desktop' ou 'mobile'
-    validator: (value) => ['desktop', 'mobile'].includes(value)
-  }
+    default: 'desktop',
+    validator: (value) => ['desktop', 'mobile'].includes(value),
+  },
 })
 </script>
 
 <template>
-  <!-- Versão Desktop -->
   <button
     v-if="variant === 'desktop'"
     class="flex items-center gap-2 px-3 py-1.5"
@@ -24,13 +23,9 @@ defineProps({
       <p class="text-neutral-midnight">Empresarial</p>
       <p class="font-medium text-neutral-slate">Astra Pagamentos</p>
     </div>
-    <Icon
-      icon="solar:alt-arrow-down-linear"
-      class="h-4 w-4 text-[#2A2E33]"
-    />
+    <Icon icon="solar:alt-arrow-down-linear" class="h-4 w-4 text-[#2A2E33]" />
   </button>
 
-  <!-- Versão Mobile -->
   <button
     v-else
     class="flex items-center gap-2 rounded-full bg-white px-4 py-2"
@@ -41,10 +36,6 @@ defineProps({
       <p class="text-xs font-semibold text-[#11151B]">Empresarial</p>
       <p class="text-[10px] text-[#86898B]">Astra Pagamentos</p>
     </div>
-    <Icon
-      icon="solar:alt-arrow-down-linear"
-      class="h-3 w-3 text-black"
-    />
+    <Icon icon="solar:alt-arrow-down-linear" class="h-3 w-3 text-black" />
   </button>
 </template>
-
