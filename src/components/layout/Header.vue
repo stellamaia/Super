@@ -19,7 +19,6 @@ const quickActions = [
     <div
       class="hidden sm:flex mx-auto w-full max-w-[1440px] flex-col md:flex-row md:items-center md:justify-between gap-4 px-4 py-4"
     >
-      <!-- Primeira linha (sm) / Lado esquerdo (lg): Logo e Super central de gestão -->
       <div class="flex items-center gap-8">
         <SuperLogo />
         <div class="flex items-center gap-2 lg:pl-[9rem]">
@@ -32,7 +31,6 @@ const quickActions = [
         </div>
       </div>
 
-      <!-- Segunda linha (sm) / Lado direito (lg): Ações e usuário -->
       <div class="flex items-center justify-end gap-3">
         <div class="flex items-center gap-2">
           <button
@@ -54,7 +52,6 @@ const quickActions = [
     </div>
     <div class="bg-[#0641FC] pb-2 pt-4 text-white lg:hidden md:hidden sm:hidden rounded-b-[15px]">
 
-        <!-- Linha 1: CompanySelector e Sino -->
         <div class="flex items-center justify-between px-6">
           <CompanySelector variant="mobile" />
           <button type="button">
@@ -62,12 +59,10 @@ const quickActions = [
           </button>
         </div>
 
-        <!-- Linha 2: Faturamento -->
         <div class="mt-4 px-6" >
           <p class="text-[25px] font-semibold py-2">Faturamento</p>
         </div>
 
-        <!-- Linha 3: Valor e Ícone de Olho -->
         <div class="flex items-center justify-between pb-2 px-6">
           <span class="flex items-center gap-1">
             <p class="text-sm py-2 pr-2">R$</p>
@@ -81,10 +76,8 @@ const quickActions = [
           </button>
         </div>
 
-        <!-- Linha 4: Divisor -->
         <hr class="border-0 border-t border-[#1E54FF] mt-2" />
 
-        <!-- Linha 5: Ir para a carteira e Arrow -->
         <button
           class=" px-6 mt-3 flex items-center justify-between gap-2 rounded-full py-2 text-xs text-white w-full"
         >
@@ -92,7 +85,6 @@ const quickActions = [
           <Icon icon="solar:alt-arrow-right-linear" class="h-4 w-4 text-white" />
         </button>
       </div>
-    <!-- Botão Nova cobrança - apenas mobile -->
     <div class="px-4 sm:hidden">
       <button
         class="mt-5 w-full rounded-full px-6 py-4 text-base font-semibold text-white flex items-center justify-between"

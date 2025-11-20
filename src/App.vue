@@ -56,10 +56,8 @@ onBeforeUnmount(() => {
 <template>
   <MainLayout>
     <section class="space-y-6">
-      <!-- Botões de filtro e ações - visível apenas em sm+ (tablet e desktop) -->
       <div class="hidden sm:flex flex-wrap items-center justify-between gap-3">
         <div class="flex flex-wrap items-center gap-3">
-          <!-- Botão Nova cobrança -->
           <button
             class="inline-flex items-center gap-2 rounded-full bg-brand-primary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-indigo"
           >
@@ -67,10 +65,8 @@ onBeforeUnmount(() => {
             <Icon icon="solar:add-circle-bold" class="h-5 w-5 text-[#D9D9D9]" />
           </button>
 
-          <!-- Divisor vertical -->
           <div class="h-10 w-px bg-[#D9D9D9]"></div>
 
-          <!-- Botão Período -->
           <button
             class="inline-flex items-center gap-2 rounded-full border border-neutral-cloud bg-white px-4 py-2.5 text-sm font-medium text-[#2A2E33] transition hover:bg-neutral-porcelain"
           >
@@ -79,9 +75,7 @@ onBeforeUnmount(() => {
             <Icon icon="solar:alt-arrow-down-linear" class="h-4 w-4 text-[#2A2E33]" />
           </button>
 
-          <!-- Date Picker Container -->
           <div class="inline-flex items-center gap-3 rounded-full border border-neutral-cloud bg-white px-4 py-2.5">
-            <!-- Botão Data Início -->
             <button
               class="inline-flex items-center gap-2 text-sm font-medium text-[#2A2E33] transition hover:opacity-70"
             >
@@ -90,10 +84,8 @@ onBeforeUnmount(() => {
               <Icon icon="solar:alt-arrow-down-linear" class="h-4 w-4 text-[#2A2E33]" />
             </button>
 
-            <!-- Divisor vertical -->
             <div class="h-6 w-px bg-[#D9D9D9]"></div>
 
-            <!-- Botão Data Fim -->
             <button
               class="inline-flex items-center gap-2 text-sm font-medium text-[#2A2E33] transition hover:opacity-70"
             >
@@ -104,7 +96,6 @@ onBeforeUnmount(() => {
         </div>
 
         <div class="flex items-center gap-3">
-          <!-- Botão Tipo de cobrança -->
           <button
             class="inline-flex items-center gap-2 rounded-full border border-neutral-cloud bg-white px-4 py-2.5 text-sm font-medium text-neutral-midnight transition hover:bg-neutral-porcelain"
           >
@@ -113,7 +104,6 @@ onBeforeUnmount(() => {
             <Icon icon="solar:alt-arrow-down-linear" class="h-4 w-4 text-black" />
           </button>
 
-          <!-- Botão Download -->
           <button
             class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-neutral-cloud bg-white text-neutral-midnight transition hover:bg-neutral-porcelain"
           >
@@ -122,9 +112,7 @@ onBeforeUnmount(() => {
         </div>
       </div>
 
-      <!-- Card de Estatísticas do período - Separado no Mobile -->
       <header class="rounded-[12px] bg-white p-6 lg:p-8">
-        <!-- Desktop/Tablet Header -->
         <div v-if="!isMobile" class="flex items-center">
           <p class=" font-semibold pr-2 text-black text-[25px]">
             Faturamento
@@ -132,7 +120,6 @@ onBeforeUnmount(() => {
           <Icon icon="solar:eye-bold-duotone" class="h-6 w-6 text-[#86898B]" />
         </div>
 
-        <!-- Mobile Header -->
         <div v-else class="flex items-center justify-between">
           <p class="text-black font-semibold text-[17px]">
             Estatísticas do período
@@ -149,7 +136,6 @@ onBeforeUnmount(() => {
           class="flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between"
         >
           <div>
-            <!-- Layout Desktop -->
             <div v-if="!isMobile" class="mt-3 flex flex-wrap gap-4">
               <span class="text-[#86898B] pt-4">R$</span>
               <p class="text-4xl font-semibold text-brand-primary md:text-5xl">
@@ -168,7 +154,6 @@ onBeforeUnmount(() => {
               </span>
             </div>
 
-            <!-- Layout Mobile -->
             <div v-else class="mt-3">
               <p class="text-3xl font-semibold text-[#2A2E33]">
                 <span class="text-black mr-2">R$</span>760.102,06
@@ -180,7 +165,6 @@ onBeforeUnmount(() => {
             </div>
           </div>
         </div>
-        <!-- Gráfico - desktop/tablet -->
         <div v-if="!isMobile" class="mt-8 p-4">
           <div class="h-72">
             <div
@@ -204,7 +188,6 @@ onBeforeUnmount(() => {
           </div>
         </div>
 
-        <!-- Cards de resumo - Desktop (dentro do card de Faturamento) -->
         <div v-if="!isMobile" class="mt-6 grid gap-1 sm:grid-cols-2 xl:grid-cols-5">
           <article
             v-for="card in summaryCards"
@@ -246,7 +229,6 @@ onBeforeUnmount(() => {
           </article>
         </div>
 
-        <!-- Gráfico - mobile (dentro do mesmo card) -->
         <div v-else class="mt-6">
           <div class="h-56 mb-4">
             <div
@@ -269,15 +251,13 @@ onBeforeUnmount(() => {
               :is-mobile="true"
             />
           </div>
-           <!-- Data do período - abaixo do gráfico -->
           <p class="p-2 w-full mt-9 text-center text-sm text-[#86898B] bg-[#F5F5F5] rounded-[20px] ">
             De 15 de Dez. de 2024 à 07 de Fev. de 2025
           </p>
-          
+
         </div>
       </header>
 
-      <!-- Cards de resumo - Mobile com scroll horizontal -->
       <div v-if="isMobile" class="mt-6 overflow-x-auto scrollbar-hide -mx-5 px-5">
         <div class="flex gap-3 pb-2">
           <article
@@ -387,7 +367,6 @@ onBeforeUnmount(() => {
                   >
                     {{ card.label }}
                   </p>
-                  <!-- Ícone de alerta apenas para Chargebacks e não mobile -->
                   <span
                     v-if="!isMobile && card.label === 'Chargebacks'"
                     class="absolute -top-1 -right-6 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#FF9D3A] text-xs font-semibold text-black"

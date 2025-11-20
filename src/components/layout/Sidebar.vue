@@ -43,15 +43,12 @@ const secondaryMenu = [
           : '-translate-x-full',
     ]"
   >
-    <!-- Logo e título - apenas mobile -->
     <div class="px-6 pt-6 pb-4 lg:hidden flex-shrink-0">
       <SuperLogo />
     </div>
 
-    <!-- Espaço fixo do topo - apenas desktop -->
     <div class="h-20 flex-shrink-0 hidden lg:block"></div>
 
-    <!-- Conteúdo com scroll -->
     <div class="flex flex-1 flex-col overflow-y-auto pb-6 sidebar-scroll">
       <nav class="space-y-4 px-6 py-4">
         <div>
@@ -131,15 +128,13 @@ const secondaryMenu = [
 </template>
 
 <style scoped>
-/* Scrollbar customizada que não ocupa espaço */
 .sidebar-scroll {
-  scrollbar-width: thin; /* Firefox */
-  scrollbar-color: transparent transparent; /* Firefox - thumb e track transparentes */
-  overflow-y: overlay; /* Scrollbar overlay (não ocupa espaço) */
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  overflow-y: overlay;
   overflow-x: hidden;
 }
 
-/* Fallback para navegadores que não suportam overlay */
 @supports not (overflow-y: overlay) {
   .sidebar-scroll {
     overflow-y: auto;
@@ -157,13 +152,12 @@ const secondaryMenu = [
 .sidebar-scroll::-webkit-scrollbar-thumb {
   background: transparent;
   border-radius: 3px;
-  transition: background-color 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Transição suave */
+  transition: background-color 0.3s ease-in-out, opacity 0.3s ease-in-out;
   opacity: 0;
 }
 
-/* Mostra a scrollbar no hover com transição suave */
 .sidebar-scroll:hover {
-  scrollbar-color: rgba(209, 213, 219, 0.8) transparent; /* Firefox */
+  scrollbar-color: rgba(209, 213, 219, 0.8) transparent;
 }
 
 .sidebar-scroll:hover::-webkit-scrollbar-thumb {
@@ -175,7 +169,6 @@ const secondaryMenu = [
   background: rgba(156, 163, 175, 0.9);
 }
 
-/* Garante que o conteúdo não se mova */
 .sidebar-scroll::-webkit-scrollbar-track {
   margin: 0;
 }

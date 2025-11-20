@@ -116,7 +116,7 @@ const chartData = computed(() => ({
 }))
 const chartOptions = computed(() => ({
   ...revenueChartOptions,
-  isMobileChart: props.isMobile, // Flag para o plugin saber se é mobile
+  isMobileChart: props.isMobile,
   scales: {
     ...revenueChartOptions.scales,
     x: {
@@ -126,7 +126,7 @@ const chartOptions = computed(() => ({
       categoryPercentage: 0.9,
       ticks: {
         ...revenueChartOptions.scales?.x?.ticks,
-        display: !props.isMobile, // Oculta labels no mobile
+        display: !props.isMobile,
       },
     },
     y: {
@@ -134,11 +134,11 @@ const chartOptions = computed(() => ({
       min: 0,
       ticks: {
         ...revenueChartOptions.scales?.y?.ticks,
-        display: !props.isMobile, // Oculta labels no mobile
+        display: !props.isMobile,
       },
       grid: {
         ...revenueChartOptions.scales?.y?.grid,
-        display: !props.isMobile, // Oculta grid no mobile
+        display: !props.isMobile,
       },
     },
   }

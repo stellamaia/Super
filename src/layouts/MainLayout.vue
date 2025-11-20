@@ -4,7 +4,7 @@ import Sidebar from '../components/layout/Sidebar.vue'
 import HeaderBar from '../components/layout/Header.vue'
 import MobileBottomNav from '../components/layout/MobileBottomNav.vue'
 
-const SIDEBAR_WIDTH = 288 // px (equivalent to w-72)
+const SIDEBAR_WIDTH = 288
 const isDesktop = ref(false)
 const isSidebarOpen = ref(false)
 
@@ -77,7 +77,6 @@ const mainContentStyle = computed(() => {
       </button>
     </div>
 
-    <!-- Mobile Bottom Navigation -->
     <MobileBottomNav @toggle-sidebar="toggleSidebar" />
 
     <transition name="fade">

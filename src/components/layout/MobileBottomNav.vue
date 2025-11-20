@@ -36,7 +36,6 @@ const handleClick = (item) => {
   if (item.id === 'menu') {
     emit('toggleSidebar')
   }
-  // Adicione outras ações conforme necessário
 }
 </script>
 
